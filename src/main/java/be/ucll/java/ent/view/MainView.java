@@ -21,6 +21,7 @@ class MainView extends AppLayout  {
 
     // Content views
     private UsersView uView;
+    private ProductView pView;
 
     // Left navigation tabs
     private Tab tab1;
@@ -56,6 +57,8 @@ class MainView extends AppLayout  {
         uView = new UsersView();
         uView.loadData();
 
+        pView = new ProductView();
+        pView.loadData();
 
         // As default load the studentenview
         this.setContent(uView);
@@ -66,7 +69,11 @@ class MainView extends AppLayout  {
         if (selTab.getLabel() != null) {
             if (selTab.getLabel().equals(TABNAME1)) {
                 setContent(uView);
-            } else {
+            }
+            else if (selTab.getLabel().equals(TABNAME2)) {
+                setContent(pView);
+            }
+            else {
                 setContent(new Label("Te implementeren scherm voor Admins only"));
             }
         }

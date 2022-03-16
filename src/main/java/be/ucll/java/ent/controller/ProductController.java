@@ -3,7 +3,6 @@ package be.ucll.java.ent.controller;
 import be.ucll.java.ent.domain.ProductDTO;
 import be.ucll.java.ent.model.ProductEntity;
 import be.ucll.java.ent.repository.ProductDAO;
-import be.ucll.java.ent.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -19,11 +18,8 @@ import java.util.stream.Stream;
 @Controller
 @Transactional
 public class ProductController {
-    @Autowired
+   @Autowired
     private ProductDAO dao;
-
-    @Autowired
-    private ProductRepository prodRepo;
 
     @Autowired
     @Qualifier("messageSource")
@@ -117,13 +113,13 @@ public class ProductController {
 
     // Search methods
 
-    public List<ProductDTO> getProductsByName(String productNaam) throws IllegalArgumentException {
+    /*public List<ProductDTO> getProductsByName(String productNaam) throws IllegalArgumentException {
         if (productNaam == null) throw new IllegalArgumentException("Produkt opzoeken op naam gefaald. Inputdata ontbreekt");
         if (productNaam.trim().length() == 0)
             throw new IllegalArgumentException("User opzoeken op naam gefaald. Naam leeg");
 
-        return (queryListToProductDTOList(prodRepo.findAllByNaamContainsIgnoreCaseOrderByNaam(productNaam)));
-    }
+       return (queryListToProductDTOList(prodRepo.findAllByNaamContainsIgnoreCaseOrderByNaam(productNaam)));
+    }*/
 
     public List<ProductDTO> getStudents(String produktNaam) throws IllegalArgumentException {
         if (produktNaam == null && produktNaam == null)

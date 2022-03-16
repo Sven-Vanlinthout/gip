@@ -31,7 +31,7 @@ public class ProductDTO implements Serializable {
         return productNaam;
     }
 
-    public void setProductNaam(String naam) {
+    public void setProductNaam(String productNaam) {
         this.productNaam = productNaam;
     }
 
