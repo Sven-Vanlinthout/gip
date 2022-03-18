@@ -14,16 +14,13 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 import javax.annotation.PostConstruct;
-import java.awt.*;
 
 @Route("MainUser")
 @PageTitle("Inventory management")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 public class MainUserView extends AppLayout {
-    // Content views
     private UserProductView pView;
 
-    // Left navigation tabs
     private Tab tab1;
     private static final String TABNAME1 = "stock";
     private Tab tab2;
@@ -37,7 +34,6 @@ public class MainUserView extends AppLayout {
                 header,
                 new Html("<span>&nbsp;&nbsp;</span>"));
 
-        // Tabs on the left side drawer
         tab1 = new Tab(TABNAME1);
         tab2 = new Tab(TABNAME2);
 
@@ -54,7 +50,6 @@ public class MainUserView extends AppLayout {
         pView = new UserProductView();
         pView.loadData();
 
-        // As default load the studentenview
         this.setContent(pView);
     }
 

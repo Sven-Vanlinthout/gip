@@ -33,13 +33,12 @@ public class UserController {
     // Create methods
 
     public long createStudent(UserDTO user) throws IllegalArgumentException {
-        // Algemene input controle
         if (user == null) {
             //throw new IllegalArgumentException("Alle data vereist voor het aanmaken van een student ontbreekt");
-            throw new IllegalArgumentException("Data vereist voor het aanmaken van een student ontbreekt");
+            throw new IllegalArgumentException("Data vereist voor het aanmaken van een user ontbreekt");
         }
 
-        // Controle op verplichte velden
+
         if (user.getNaam() == null || user.getNaam().length() == 0)
             throw new IllegalArgumentException("User aanmaken gefaald. Naam ontbreekt");
         if (user.getVoornaam() == null || user.getVoornaam().length() == 0)
@@ -47,17 +46,14 @@ public class UserController {
         if (user.getGeboortedatum() == null)
             throw new IllegalArgumentException("User aanmaken gefaald. Geboortedatum ontbreekt");
 
-        // Waarde te lang
         if (user.getNaam().trim().length() >= 128)
             throw new IllegalArgumentException("User aanmaken gefaald. Naam langer dan 128 karakters");
         if (user.getVoornaam().trim().length() >= 128)
             throw new IllegalArgumentException("User aanmaken gefaald. Voornaam langer dan 128 karakters");
 
-        // Datumcontroles
         if (user.getGeboortedatum().after(new Date()))
             throw new IllegalArgumentException("User aanmaken gefaald. Geboortedatum in de toekomst");
 
-        // Controleer dat er al een student bestaat met dezelfde naam, voornaam en geboortedatum.
         List<UserDTO> lst = this.getStudents(user.getNaam(), user.getVoornaam());
         for (UserDTO stud : lst) {
             if (user.getNaam().equalsIgnoreCase(stud.getNaam()) &&
@@ -73,7 +69,6 @@ public class UserController {
         return s.getId();
     }
 
-    // Read / get-one methods
 
     public UserDTO getUserById(long userId) throws IllegalArgumentException {
         if (userId <= 0L) throw new IllegalArgumentException("User ID ontbreekt");
@@ -175,7 +170,6 @@ public class UserController {
         return dao.countAll();
     }
 
-    // private methods
 
     private List<UserDTO> queryListToStudentDTOList(List<UserEntity> lst) {
         Stream<UserDTO> stream = lst.stream()

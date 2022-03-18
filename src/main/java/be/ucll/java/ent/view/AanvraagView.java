@@ -74,7 +74,6 @@ public class AanvraagView extends VerticalLayout {
 
         grid = new Grid<>();
         grid.setItems(new ArrayList<AanvraagDTO>(0));
-        grid.addColumn(prod -> prod.getId()).setHeader("id").setSortable(true);
         grid.addColumn(AanvraagDTO::getProductNaam).setHeader("Productnaam").setSortable(true);
         grid.addColumn(AanvraagDTO::getNaamUser).setHeader("Usernaam").setSortable(true);
         grid.addColumn(AanvraagDTO::getDatum).setHeader("Datum nodig").setSortable(true);
@@ -83,7 +82,6 @@ public class AanvraagView extends VerticalLayout {
 
         grid.setHeightFull();
 
-        //when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> populateForm(event.getValue()));
 
         lpvLayout.add(lphLayout);

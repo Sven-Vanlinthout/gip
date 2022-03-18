@@ -1,9 +1,7 @@
 package be.ucll.java.ent.controller;
 
 import be.ucll.java.ent.domain.AanvraagDTO;
-import be.ucll.java.ent.domain.ProductDTO;
 import be.ucll.java.ent.model.AanvraagEntity;
-import be.ucll.java.ent.model.ProductEntity;
 import be.ucll.java.ent.repository.AanvraagDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,34 +26,21 @@ public class AanvraagController {
     private MessageSource msg;
 
     public long createAanvraag(AanvraagDTO aanvr) throws IllegalArgumentException {
-        // Algemene input controle
         if (aanvr == null) {
-            //throw new IllegalArgumentException("Alle data vereist voor het aanmaken van een student ontbreekt");
             throw new IllegalArgumentException("Data vereist voor het aanmaken van een aanvraag ontbreekt");
         }
 
-        // Controle op verplichte velden
         if (aanvr.getNaamUser() == null || aanvr.getNaamUser().length() == 0)
             throw new IllegalArgumentException("aanvraag aanmaken gefaald. Naam ontbreekt");
 
-        // Waarde te lang
         if (aanvr.getNaamUser().trim().length() >= 128)
             throw new IllegalArgumentException("aanvraag aanmaken gefaald. Naam langer dan 128 karakters");
 
         if (aanvr.getProductNaam() == null || aanvr.getProductNaam().length() == 0)
             throw new IllegalArgumentException("aanvraag aanmaken gefaald. Naam ontbreekt");
 
-        // Waarde te lang
         if (aanvr.getProductNaam().trim().length() >= 128)
             throw new IllegalArgumentException("aanvraag aanmaken gefaald. Naam langer dan 128 karakters");
-
-        // Controleer dat er al een student bestaat met dezelfde naam, voornaam en geboortedatum.
-        /*List<ProductDTO> lst = this.getStudents(prod.getProductNaam());
-        for (ProductDTO pro : lst) {
-            if (prod.getProductNaam().equalsIgnoreCase(pro.getProductNaam()) {
-                throw new IllegalArgumentException("Er is al een User in de databank met deze gegevens");
-            }
-        }*/
 
         AanvraagEntity s = new AanvraagEntity(0L, aanvr.getNaamUser(), aanvr.getProductNaam(), aanvr.getDatum());
         dao.create(s);
@@ -87,20 +72,17 @@ public class AanvraagController {
         }
     }
 
-    // Update / Modify / Change methods
 
     public void updateAanvraag(AanvraagDTO aanvr) throws IllegalArgumentException {
         if (aanvr == null) throw new IllegalArgumentException("Aanvraag wijzigen gefaald. Inputdata ontbreekt");
         if (aanvr.getId() <= 0) throw new IllegalArgumentException("Aanvraag wijzigen gefaald. Aanvraag ID ontbreekt");
         if (aanvr.getProductNaam() == null || aanvr.getProductNaam().trim().equals(""))
-            throw new IllegalArgumentException("User wijzigen gefaald. Inputdata ontbreekt");
+            throw new IllegalArgumentException("produktnaam wijzigen gefaald. Inputdata ontbreekt");
         if (aanvr.getProductNaam().trim().length() >= 128)
-            throw new IllegalArgumentException("User wijzigen gefaald. Naam langer dan 128 karakters");
+            throw new IllegalArgumentException("produktnaam wijzigen gefaald. Naam langer dan 128 karakters");
 
         dao.update(new AanvraagEntity(aanvr.getId(), aanvr.getNaamUser(),aanvr.getProductNaam(), aanvr.getDatum()));
     }
-
-    // Delete methods
 
     public void deleteAanvraag(long AanvraagId) throws IllegalArgumentException {
         if (AanvraagId <= 0L) throw new IllegalArgumentException("Ongeldig ID");
@@ -113,7 +95,7 @@ public class AanvraagController {
 
     public List<AanvraagDTO> getAanvragen(String userName) throws IllegalArgumentException {
         if (userName == null)
-            throw new IllegalArgumentException("Usernaam opzoeken op naam + voornaam gefaald. Inputdata ontbreekt");
+            throw new IllegalArgumentException("Aanvraag opzoeken op usernaam gefaald. Inputdata ontbreekt");
 
         List<AanvraagDTO> lst = queryListToAanvraagDTOList(dao.getAanvragen(userName));
         return lst;

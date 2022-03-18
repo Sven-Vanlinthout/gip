@@ -20,12 +20,10 @@ import javax.annotation.PostConstruct;
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 class MainView extends AppLayout  {
 
-    // Content views
     private UsersView uView;
     private ProductView pView;
     private AanvraagView aView;
 
-    // Left navigation tabs
     private Tab tab1;
     private static final String TABNAME1 = "users";
     private Tab tab2;
@@ -36,7 +34,6 @@ class MainView extends AppLayout  {
     private static final String TABNAME4 = "Afmelden";
     private Tab tab4;
     public MainView() {
-        // Header / Menu bar on the top of the page
         H3 header = new H3("Inventory Managment");
 
         addToNavbar(new DrawerToggle(),
@@ -44,7 +41,6 @@ class MainView extends AppLayout  {
                 header,
                 new Html("<span>&nbsp;&nbsp;</span>"));
 
-        // Tabs on the left side drawer
         tab1 = new Tab(TABNAME1);
         tab2 = new Tab(TABNAME2);
         tab3 = new Tab(TABNAME3);
@@ -69,7 +65,6 @@ class MainView extends AppLayout  {
         aView = new AanvraagView();
         aView.loadData();
 
-        // As default load the studentenview
         this.setContent(uView);
     }
 

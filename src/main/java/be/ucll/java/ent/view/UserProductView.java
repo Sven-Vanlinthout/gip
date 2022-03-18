@@ -80,15 +80,12 @@ public class UserProductView extends VerticalLayout {
 
         grid = new Grid<>();
         grid.setItems(new ArrayList<ProductDTO>(0));
-        //grid.addColumn(StudentDTO::getVoornaam).setHeader("Voornaam").setSortable(true);
-        grid.addColumn(prod -> prod.getId()).setHeader("id").setSortable(true);
         grid.addColumn(ProductDTO::getProductNaam).setHeader("Productnaam").setSortable(true);
 
 
 
         grid.setHeightFull();
 
-        //when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> populateForm(event.getValue()));
 
         lpvLayout.add(lphLayout);

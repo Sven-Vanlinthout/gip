@@ -80,7 +80,6 @@ public class ProductView extends VerticalLayout {
 
         grid = new Grid<>();
         grid.setItems(new ArrayList<ProductDTO>(0));
-        grid.addColumn(prod -> prod.getId()).setHeader("id").setSortable(true);
         grid.addColumn(ProductDTO::getProductNaam).setHeader("Productnaam").setSortable(true);
         grid.addColumn(ProductDTO::getNaamUser).setHeader("user").setSortable(true);
 
