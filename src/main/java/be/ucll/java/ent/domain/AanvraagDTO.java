@@ -12,7 +12,6 @@ public class AanvraagDTO implements Serializable {
     private Date Datum;
 
     public AanvraagDTO() {
-        // Default constructor
     }
     public AanvraagDTO(long id) {
         this.id = id;

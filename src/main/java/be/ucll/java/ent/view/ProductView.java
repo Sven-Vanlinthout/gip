@@ -52,8 +52,6 @@ public class ProductView extends VerticalLayout {
     public ProductView() {
         super();
 
-        // Load Spring Beans via a utility class
-        // We can't use @Autowired because Vaadin Views are preferably NOT declared as SpringComponent
         productController = BeanUtil.getBean(ProductController.class);
 
         this.setSizeFull();
@@ -87,7 +85,6 @@ public class ProductView extends VerticalLayout {
 
         grid.setHeightFull();
 
-        //when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> populateForm(event.getValue()));
 
         lpvLayout.add(lphLayout);

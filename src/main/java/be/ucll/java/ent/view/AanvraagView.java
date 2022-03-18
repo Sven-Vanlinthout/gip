@@ -46,8 +46,6 @@ public class AanvraagView extends VerticalLayout {
     public AanvraagView() {
         super();
 
-        // Load Spring Beans via a utility class
-        // We can't use @Autowired because Vaadin Views are preferably NOT declared as SpringComponent
         aanvraagController = BeanUtil.getBean(AanvraagController.class);
 
         this.setSizeFull();

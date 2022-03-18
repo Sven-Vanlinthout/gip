@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 public class AanvraagFragment extends FormLayout {
-    // Public fields for ease of access
     public Label lblID;
     public TextField txtProductNaam;
     public TextField txtUsernaam;
@@ -31,7 +30,6 @@ public class AanvraagFragment extends FormLayout {
         Datum = new DatePicker();
         LocalDate now = LocalDate.now();
         Datum.setPlaceholder("dd/mm/jjjj");
-        //datGeboorte.setValue(now);
         Datum.setMin(now.minusYears(100));
         Datum.setMax(now);
         Datum.setRequired(true);

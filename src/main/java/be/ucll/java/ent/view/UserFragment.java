@@ -10,7 +10,6 @@ import java.util.Locale;
 
 public class UserFragment extends FormLayout {
 
-    // Public fields for ease of access
     public Label lblID;
     public TextField txtVoornaam;
     public TextField txtNaam;
@@ -47,7 +46,6 @@ public class UserFragment extends FormLayout {
         datGeboorte = new DatePicker();
         LocalDate now = LocalDate.now();
         datGeboorte.setPlaceholder("dd/mm/jjjj");
-        //datGeboorte.setValue(now);
         datGeboorte.setMin(now.minusYears(100));
         datGeboorte.setMax(now);
         datGeboorte.setRequired(true);

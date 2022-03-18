@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 public class UserProductFragment extends FormLayout {
-    // Public fields for ease of access
+
     public Label lblID;
     public TextField txtProductNaam;
     public TextField txtUserNaam;

@@ -1,7 +1,6 @@
 package be.ucll.java.ent.repository;
 
 import be.ucll.java.ent.model.AanvraagEntity;
-import be.ucll.java.ent.model.ProductEntity;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -24,14 +23,11 @@ public class AanvraagDAO implements Dao<AanvraagEntity> {
     }
 
     @Override
-    // Gebruik Optional om aanroepende code af te dwingen en rekening te houden met NULL
     public Optional<AanvraagEntity> get(long aanvraagId) {
         return Optional.ofNullable(em.find(AanvraagEntity.class, aanvraagId));
     }
 
     @Override
-    // Zonder Optional kan de return value null zijn en kan je alleen maar hopen
-    // dat de aanroepende code daarmee rekening houdt
     public AanvraagEntity read(long aanvraagId) {
         return em.find(AanvraagEntity.class, aanvraagId);
     }
@@ -44,7 +40,6 @@ public class AanvraagDAO implements Dao<AanvraagEntity> {
                 q.setParameter("p1", aanvraagNaam.toLowerCase());
                 aanvraag = (AanvraagEntity) q.getSingleResult();
             } catch (NoResultException e) {
-                // ignore
             }
             return Optional.ofNullable(aanvraag);
         } catch (Exception e) {
@@ -63,7 +58,6 @@ public class AanvraagDAO implements Dao<AanvraagEntity> {
         if (ref != null) {
             em.remove(ref);
         } else {
-            // Already removed
         }
     }
 
@@ -76,11 +70,9 @@ public class AanvraagDAO implements Dao<AanvraagEntity> {
                     queryString += "and lower(s.productNaam) like '%" + productNaam.toLowerCase().trim() + "%' ";
                 }
 
-                // System.out.println("Query: " + queryString);
                 Query query = em.createQuery(queryString);
                 lst = query.getResultList();
             } catch (NoResultException e) {
-                // ignore
             }
             return lst;
         } catch (Exception e) {

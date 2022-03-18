@@ -87,16 +87,7 @@ public class UsersView extends VerticalLayout {
         grid.addColumn(UserDTO::getAdres).setHeader("adres").setSortable(true);
         grid.addColumn(UserDTO::getTelefoon).setHeader("Telefoon").setSortable(true);
 
-        /*
-        grid.addColumn(new ComponentRenderer<>(student -> {
-            Button b = new Button(new Icon(VaadinIcon.ELLIPSIS_DOTS_H));
-            b.getElement().setProperty("title", "Inschrijvingen");
-            b.addClickListener(e ->{
-                //TODO
-            });
-            return b;
-        }));
-         */
+
         grid.setHeightFull();
 
         //when a row is selected or deselected, populate form

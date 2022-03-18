@@ -30,7 +30,7 @@ public class UserController {
     @Qualifier("messageSource")
     private MessageSource msg;
 
-    // Create methods
+
 
     public long createStudent(UserDTO user) throws IllegalArgumentException {
         if (user == null) {
@@ -102,7 +102,6 @@ public class UserController {
         }
     }
 
-    // Update / Modify / Change methods
 
     public void updateUser(UserDTO user) throws IllegalArgumentException {
         if (user == null) throw new IllegalArgumentException("User wijzigen gefaald. Inputdata ontbreekt");
@@ -120,7 +119,6 @@ public class UserController {
         if (user.getGeboortedatum().after(new Date()))
             throw new IllegalArgumentException("User wijzigen gefaald. Geboortedatum in de toekomst");
 
-        // TODO Controleer dat deze update geen duplicaten veroorzaakt.
 
         dao.update(new UserEntity(user.getId(), user.getNaam(), user.getVoornaam(), user.getGeboortedatum(), user.getAdres(), user.getTelefoon()));
     }
@@ -130,17 +128,11 @@ public class UserController {
     public void deleteStudent(long userId) throws IllegalArgumentException {
         if (userId <= 0L) throw new IllegalArgumentException("Ongeldig ID");
 
-        // First check if this student exists
-        // If not the thrown IllegalArgumentException exits out of this method
         getUserById(userId);
 
-        // TODO Check of er inschrijvingen zijn voor student. Dan best niet verwijderen.
-
-        // If all is good effectively delete
         dao.delete(userId);
     }
 
-    // Search methods
 
     public List<UserDTO> getUsersByName(String naam) throws IllegalArgumentException {
         if (naam == null) throw new IllegalArgumentException("User opzoeken op naam gefaald. Inputdata ontbreekt");

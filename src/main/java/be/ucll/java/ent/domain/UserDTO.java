@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-// Data Transfer Object for Student information between presentation and business logic layer
 public class UserDTO implements Serializable {
 
     private long id;
@@ -14,9 +13,7 @@ public class UserDTO implements Serializable {
     private Date geboortedatum;
     private String adres;
     private String telefoon;
-    // Constructors
     public UserDTO() {
-        // Default constructor
     }
 
     public UserDTO(long id) {

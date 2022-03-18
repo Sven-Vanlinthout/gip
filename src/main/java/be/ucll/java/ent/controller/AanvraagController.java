@@ -109,7 +109,6 @@ public class AanvraagController {
         return dao.countAll();
     }
 
-    // private methods
 
     private List<AanvraagDTO> queryListToAanvraagDTOList(List<AanvraagEntity> lst) {
         Stream<AanvraagDTO> stream = lst.stream()

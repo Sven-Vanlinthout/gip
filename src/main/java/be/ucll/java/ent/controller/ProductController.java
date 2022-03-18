@@ -26,8 +26,6 @@ public class ProductController {
     private MessageSource msg;
 
 
-    // Create methods
-
     public long createProdukt(ProductDTO prod) throws IllegalArgumentException {
         if (prod == null) {
 
@@ -48,7 +46,6 @@ public class ProductController {
         return s.getId();
     }
 
-    // Read / get-one methods
 
     public ProductDTO getProductById(long ProductId) throws IllegalArgumentException {
         if (ProductId <= 0L) throw new IllegalArgumentException("Produkt ID ontbreekt");
@@ -84,7 +81,6 @@ public class ProductController {
         dao.update(new ProductEntity(prod.getId(), prod.getProductNaam(), prod.getNaamUser()));
     }
 
-    // Delete methods
 
     public void deleteUSer(long ProductId) throws IllegalArgumentException {
         if (ProductId <= 0L) throw new IllegalArgumentException("Ongeldig ID");
@@ -111,7 +107,6 @@ public class ProductController {
         return dao.countAll();
     }
 
-    // private methods
 
     private List<ProductDTO> queryListToProductDTOList(List<ProductEntity> lst) {
         Stream<ProductDTO> stream = lst.stream()

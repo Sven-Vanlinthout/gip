@@ -51,8 +51,6 @@ public class UserProductView extends VerticalLayout {
     public UserProductView() {
         super();
 
-        // Load Spring Beans via a utility class
-        // We can't use @Autowired because Vaadin Views are preferably NOT declared as SpringComponent
         productController = BeanUtil.getBean(ProductController.class);
         aanvraagController = BeanUtil.getBean(AanvraagController.class);
 
