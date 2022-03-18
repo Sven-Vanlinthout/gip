@@ -8,12 +8,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import java.time.LocalDate;
 import java.util.Locale;
 
-public class ProductFragment extends FormLayout {
+public class UserProductFragment extends FormLayout {
     // Public fields for ease of access
     public Label lblID;
     public TextField txtProductNaam;
-    public TextField txtUsernaam;
-    public ProductFragment() {
+    public TextField txtUserNaam;
+    public DatePicker Datum;
+    public UserProductFragment() {
         super();
 
         lblID = new Label("");
@@ -22,22 +23,38 @@ public class ProductFragment extends FormLayout {
         txtProductNaam.setRequired(true);
         txtProductNaam.setMaxLength(128);
         txtProductNaam.setErrorMessage("Verplicht veld");
+        txtProductNaam.setReadOnly(true);
 
-        txtUsernaam = new TextField();
-        txtUsernaam.setRequired(false);
-        txtUsernaam.setMaxLength(128);
+        txtUserNaam = new TextField();
+        txtUserNaam.setRequired(true);
+        txtUserNaam.setMaxLength(128);
+        txtUserNaam.setErrorMessage("Verplicht veld");
+
+        Datum = new DatePicker();
+        LocalDate now = LocalDate.now();
+        Datum.setPlaceholder("dd/mm/jjjj");
+        //datGeboorte.setValue(now);
+        Datum.setMin(now);
+        Datum.setRequired(true);
+        Datum.addInvalidChangeListener(e -> Datum.setErrorMessage("Verplicht veld. Ongeldig datumformaat of datum in de toekomst"));
+        Datum.setLocale(new Locale("nl", "BE"));
+        Datum.setClearButtonVisible(true);
+
 
 
         addFormItem(txtProductNaam, "productnaam");
-        addFormItem(txtUsernaam, "user");
+        addFormItem(txtUserNaam, "Usernaam");
+        addFormItem(Datum, "datum nodig");
     }
 
     public void resetForm() {
         lblID.setText("");
         txtProductNaam.clear();
         txtProductNaam.setInvalid(false);
-        txtUsernaam.clear();
-        txtUsernaam.setInvalid(false);
+        txtUserNaam.clear();
+        txtUserNaam.setInvalid(false);
+        Datum.clear();
+        Datum.setInvalid(false);
     }
 
     public boolean isformValid() {

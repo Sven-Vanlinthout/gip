@@ -98,6 +98,15 @@ public class UserController {
         }
     }
 
+    public UserDTO getUserByUserName(String userName){
+        Optional<UserEntity> value = dao.getOneByName(userName);
+        if (value.isPresent()) {
+            return new UserDTO(value.get().getId(), value.get().getNaam(), value.get().getVoornaam(), value.get().getGeboortedatum(), value.get().getadres(), value.get().getTelefoon());
+        } else {
+            return null;
+        }
+    }
+
     // Update / Modify / Change methods
 
     public void updateUser(UserDTO user) throws IllegalArgumentException {

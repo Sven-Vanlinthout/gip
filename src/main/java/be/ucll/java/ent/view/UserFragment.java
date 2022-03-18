@@ -55,7 +55,7 @@ public class UserFragment extends FormLayout {
         datGeboorte.setLocale(new Locale("nl", "BE"));
         datGeboorte.setClearButtonVisible(true);
 
-        addFormItem(txtVoornaam, "Voornaam");
+        addFormItem(txtVoornaam, "gebruikersnaam");
         addFormItem(txtNaam, "Naam");
         addFormItem(datGeboorte, "Geboortedatum");
         addFormItem(txtAdres, "Adres");

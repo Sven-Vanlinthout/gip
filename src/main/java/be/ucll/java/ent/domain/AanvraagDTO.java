@@ -1,12 +1,15 @@
 package be.ucll.java.ent.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class AanvraagDTO implements Serializable {
     private long id;
     private String naamUser;
     private String productNaam;
+    private Date Datum;
 
     public AanvraagDTO() {
         // Default constructor
@@ -15,10 +18,11 @@ public class AanvraagDTO implements Serializable {
         this.id = id;
     }
 
-    public AanvraagDTO(long id,String naamUser, String productNaam) {
+    public AanvraagDTO(long id,String naamUser, String productNaam, Date datum) {
         this.id = id;
         this.naamUser = naamUser;
         this.productNaam = productNaam;
+        this.Datum = datum;
     }
 
     public long getId() {
@@ -29,10 +33,10 @@ public class AanvraagDTO implements Serializable {
         this.id = id;
     }
     public String getNaamUser() {
-        return productNaam;
+        return naamUser;
     }
     public void setNaamUser(String NaamUser) {
-        this.productNaam = productNaam;
+        this.naamUser = NaamUser;
     }
 
     public String getProductNaam() {
@@ -43,6 +47,20 @@ public class AanvraagDTO implements Serializable {
         this.productNaam = productNaam;
     }
 
+    public Date getDatum() {
+        return Datum;
+    }
+    public void setDatum(Date datum) {
+        this.Datum = datum;
+    }
+
+    public String getDatumstr() {
+        if (Datum != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(Datum);
+        }
+        return "";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,12 +68,13 @@ public class AanvraagDTO implements Serializable {
         AanvraagDTO that = (AanvraagDTO) o;
         return id == that.id &&
                 Objects.equals(naamUser.trim().toLowerCase(), that.naamUser.trim().toLowerCase()) &&
-                Objects.equals(productNaam.trim().toLowerCase(), that.productNaam.trim().toLowerCase());
+                Objects.equals(productNaam.trim().toLowerCase(), that.productNaam.trim().toLowerCase())&&
+                Objects.equals(Datum, that.Datum);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,naamUser, productNaam);
+        return Objects.hash(id,naamUser, productNaam, Datum);
     }
 
     @Override

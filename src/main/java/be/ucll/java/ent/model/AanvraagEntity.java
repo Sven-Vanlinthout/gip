@@ -2,6 +2,7 @@ package be.ucll.java.ent.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,15 +26,18 @@ public class AanvraagEntity {
     @Column(length = 128)
     private String productNaam;
 
+    @Column
+    private Date Datum;
     public AanvraagEntity() {
         // Default constructor
     }
 
     // Constructor with all MANDATORY fields
-    public AanvraagEntity(long id, String naamUser, String productNaam) {
+    public AanvraagEntity(long id, String naamUser, String productNaam,Date Datum) {
         this.id = id;
         this.naamUser = naamUser;
         this.productNaam = productNaam;
+        this.Datum = Datum;
 
     }
 
@@ -60,6 +64,19 @@ public class AanvraagEntity {
     public void setProductNaam(String productNaam) {
         this.productNaam = productNaam;
     }
+    public Date getDatum() {
+        return Datum;
+    }
+    public void setDatum(Date Datum) {
+        this.Datum = Datum;
+    }
+
+    public String getDatumstr() {
+        if (Datum != null) {
+            return new SimpleDateFormat("dd/MM/yyyy").format(Datum);
+        }
+        return "";
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -68,11 +85,12 @@ public class AanvraagEntity {
         AanvraagEntity that = (AanvraagEntity) o;
         return id == that.id &&
                 Objects.equals(naamUser, that.naamUser) &&
-                Objects.equals(productNaam, that.productNaam);
+                Objects.equals(productNaam, that.productNaam)&&
+                Objects.equals(Datum, that.Datum);
     }
     @Override
     public int hashCode() {
-        return Objects.hash(id,naamUser, productNaam);
+        return Objects.hash(id,naamUser, productNaam, Datum);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package be.ucll.java.ent.view;
 
+import be.ucll.java.ent.controller.AanvraagController;
 import be.ucll.java.ent.controller.ProductController;
-import be.ucll.java.ent.controller.UserController;
+import be.ucll.java.ent.domain.AanvraagDTO;
 import be.ucll.java.ent.domain.ProductDTO;
-import be.ucll.java.ent.domain.UserDTO;
 import be.ucll.java.ent.utils.BeanUtil;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
@@ -18,43 +18,37 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.Route;
 
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-@Route("Product")
-public class ProductView extends VerticalLayout {
+public class AanvraagView extends VerticalLayout {
 
-    private final ProductController productController;
+    private final AanvraagController aanvraagController;
     private SplitLayout splitLayout;
     private VerticalLayout lpvLayout; // Left Panel Vertical Layout
     private HorizontalLayout lphLayout;
     private VerticalLayout rpvLayout; // Right Panel Vertical Layout
     private HorizontalLayout rphLayout;
-    private ProductFragment frm;
+    private AanvraagFragment frm;
 
     private Label lblNaam;
     private TextField txtNaam;
 
-    private Grid<ProductDTO> grid;
+    private Grid<AanvraagDTO> grid;
 
     private Button btnCancel;
-    private Button btnCreate;
-    private Button btnUpdate;
     private Button btnDelete;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public ProductView() {
+    public AanvraagView() {
         super();
 
         // Load Spring Beans via a utility class
         // We can't use @Autowired because Vaadin Views are preferably NOT declared as SpringComponent
-        productController = BeanUtil.getBean(ProductController.class);
+        aanvraagController = BeanUtil.getBean(AanvraagController.class);
 
         this.setSizeFull();
         this.setPadding(false);
@@ -79,10 +73,11 @@ public class ProductView extends VerticalLayout {
         lphLayout.add(txtNaam);
 
         grid = new Grid<>();
-        grid.setItems(new ArrayList<ProductDTO>(0));
+        grid.setItems(new ArrayList<AanvraagDTO>(0));
         grid.addColumn(prod -> prod.getId()).setHeader("id").setSortable(true);
-        grid.addColumn(ProductDTO::getProductNaam).setHeader("Productnaam").setSortable(true);
-        grid.addColumn(ProductDTO::getNaamUser).setHeader("user").setSortable(true);
+        grid.addColumn(AanvraagDTO::getProductNaam).setHeader("Productnaam").setSortable(true);
+        grid.addColumn(AanvraagDTO::getNaamUser).setHeader("Usernaam").setSortable(true);
+        grid.addColumn(AanvraagDTO::getDatum).setHeader("Datum nodig").setSortable(true);
 
 
 
@@ -100,7 +95,7 @@ public class ProductView extends VerticalLayout {
     private Component createEditorLayout() {
         rpvLayout = new VerticalLayout();
 
-        frm = new ProductFragment();
+        frm = new AanvraagFragment();
 
         rphLayout = new HorizontalLayout();
         rphLayout.setWidthFull();
@@ -110,19 +105,12 @@ public class ProductView extends VerticalLayout {
         btnCancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         btnCancel.addClickListener(e -> handleClickCancel(e));
 
-        btnCreate = new Button("Toevoegen");
-        btnCreate.addClickListener(e -> handleClickCreate(e));
-
-        btnUpdate = new Button("Opslaan");
-        btnUpdate.addClickListener(e -> handleClickUpdate(e));
-        btnUpdate.setVisible(false);
-
         btnDelete = new Button("Verwijderen");
         btnDelete.addThemeVariants(ButtonVariant.LUMO_ERROR);
         btnDelete.addClickListener(e -> handleClickDelete(e));
         btnDelete.setVisible(false);
 
-        rphLayout.add(btnCancel, btnCreate, btnUpdate, btnDelete);
+        rphLayout.add(btnCancel, btnDelete);
 
         rpvLayout.add(frm);
         rpvLayout.add(rphLayout);
@@ -132,8 +120,8 @@ public class ProductView extends VerticalLayout {
     }
 
     public void loadData() {
-        if (productController != null) {
-            List<ProductDTO> lst = productController.getAllStudents();
+        if (aanvraagController != null) {
+            List<AanvraagDTO> lst = aanvraagController.getAllStudents();
             grid.setItems(lst);
         } else {
             System.err.println("Autowiring failed");
@@ -142,10 +130,10 @@ public class ProductView extends VerticalLayout {
 
     private void handleClickSearch(ClickEvent event) {
         if (txtNaam.getValue().trim().length() == 0) {
-            grid.setItems(productController.getAllStudents());
+            grid.setItems(aanvraagController.getAllStudents());
         } else {
             try {
-                grid.setItems(productController.getStudents(txtNaam.getValue().trim()));
+                grid.setItems(aanvraagController.getAanvragen(txtNaam.getValue().trim()));
             } catch (IllegalArgumentException e) {
                 Notification.show(e.getMessage(), 3000, Notification.Position.MIDDLE);
             }
@@ -155,64 +143,25 @@ public class ProductView extends VerticalLayout {
     private void handleClickCancel(ClickEvent event) {
         grid.asSingleSelect().clear();
         frm.resetForm();
-        btnCreate.setVisible(true);
-        btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
     }
 
-    private void handleClickCreate(ClickEvent event) {
-        if (!frm.isformValid()) {
-            Notification.show("Er zijn validatiefouten", 3000, Notification.Position.MIDDLE);
-            return;
-        }
 
-        try {
-            ProductDTO s = new ProductDTO(0, frm.txtProductNaam.getValue(),frm.txtUsernaam.getValue());
-            long i = productController.createProdukt(s);
 
-            Notification.show("product created (id: " + i + ")", 3000, Notification.Position.TOP_CENTER);
-            frm.resetForm();
-            handleClickSearch(null);
-        } catch (IllegalArgumentException e) {
-            Notification.show(e.getMessage(), 5000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-        }
-    }
-
-    private void handleClickUpdate(ClickEvent event) {
-        if (!frm.isformValid()) {
-            Notification.show("Er zijn validatiefouten", 3000, Notification.Position.MIDDLE);
-            return;
-        }
-
-        try {
-            ProductDTO s = new ProductDTO(Integer.parseInt(frm.lblID.getText()), frm.txtProductNaam.getValue(), frm.txtUsernaam.getValue());
-            productController.updateProduct(s);
-
-            Notification.show("Product aangepast", 3000, Notification.Position.TOP_CENTER);
-            frm.resetForm();
-            handleClickSearch(null);
-        } catch (IllegalArgumentException e) {
-            Notification.show(e.getMessage(), 5000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-        }
-    }
 
     private void handleClickDelete(ClickEvent event) {
         try {
-            productController.deleteUSer(Integer.parseInt(frm.lblID.getText()));
-            Notification.show("Student verwijderd", 3000, Notification.Position.TOP_CENTER);
+            aanvraagController.deleteAanvraag(Integer.parseInt(frm.lblID.getText()));
+            Notification.show("Aanvraag verwijderd", 3000, Notification.Position.TOP_CENTER);
         } catch (IllegalArgumentException e) {
-            Notification.show("Het is NIET mogelijk de student te verwijderen wegens geregistreerde inschrijvingen.", 5000, Notification.Position.MIDDLE).addThemeVariants(NotificationVariant.LUMO_ERROR);
+            Notification.show("Het is NIET mogelijk de aanvraag te verwijderen", 5000, Notification.Position.MIDDLE).addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
         frm.resetForm();
         handleClickSearch(null);
-        btnCreate.setVisible(true);
-        btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
     }
 
-    private void populateForm(ProductDTO p) {
-        btnCreate.setVisible(false);
-        btnUpdate.setVisible(true);
+    private void populateForm(AanvraagDTO p) {
         btnDelete.setVisible(true);
 
         if (p != null) {
@@ -227,3 +176,4 @@ public class ProductView extends VerticalLayout {
         }
     }
 }
+

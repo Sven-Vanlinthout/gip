@@ -8,12 +8,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import java.time.LocalDate;
 import java.util.Locale;
 
-public class ProductFragment extends FormLayout {
+public class AanvraagFragment extends FormLayout {
     // Public fields for ease of access
     public Label lblID;
     public TextField txtProductNaam;
     public TextField txtUsernaam;
-    public ProductFragment() {
+    public DatePicker Datum;
+    public AanvraagFragment() {
         super();
 
         lblID = new Label("");
@@ -24,12 +25,23 @@ public class ProductFragment extends FormLayout {
         txtProductNaam.setErrorMessage("Verplicht veld");
 
         txtUsernaam = new TextField();
-        txtUsernaam.setRequired(false);
+        txtUsernaam.setRequired(true);
         txtUsernaam.setMaxLength(128);
 
+        Datum = new DatePicker();
+        LocalDate now = LocalDate.now();
+        Datum.setPlaceholder("dd/mm/jjjj");
+        //datGeboorte.setValue(now);
+        Datum.setMin(now.minusYears(100));
+        Datum.setMax(now);
+        Datum.setRequired(true);
+        Datum.addInvalidChangeListener(e -> Datum.setErrorMessage("Verplicht veld. Ongeldig datumformaat of datum in de toekomst"));
+        Datum.setLocale(new Locale("nl", "BE"));
+        Datum.setClearButtonVisible(true);
 
         addFormItem(txtProductNaam, "productnaam");
         addFormItem(txtUsernaam, "user");
+        addFormItem(Datum, "datum nodig");
     }
 
     public void resetForm() {
@@ -38,6 +50,8 @@ public class ProductFragment extends FormLayout {
         txtProductNaam.setInvalid(false);
         txtUsernaam.clear();
         txtUsernaam.setInvalid(false);
+        Datum.clear();
+        Datum.setInvalid(false);
     }
 
     public boolean isformValid() {

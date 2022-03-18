@@ -51,7 +51,7 @@ public class ProductController {
             }
         }*/
 
-        ProductEntity s = new ProductEntity(0L, prod.getProductNaam());
+        ProductEntity s = new ProductEntity(0L, prod.getProductNaam(), prod.getNaamUser());
         dao.create(s);
 
         prod.setId(s.getId());
@@ -65,7 +65,7 @@ public class ProductController {
 
         Optional<ProductEntity> value = dao.get(ProductId);
         if (value.isPresent()) {
-            return new ProductDTO(value.get().getId(), value.get().getProductNaam());
+            return new ProductDTO(value.get().getId(), value.get().getProductNaam(), value.get().getNaamUser());
         } else {
             throw new IllegalArgumentException("Geen product gevonden met ID: " + ProductId);
         }
@@ -77,7 +77,7 @@ public class ProductController {
 
         Optional<ProductEntity> value = dao.getOneByName(productNaam);
         if (value.isPresent()) {
-            return new ProductDTO(value.get().getId(), value.get().getProductNaam());
+            return new ProductDTO(value.get().getId(), value.get().getProductNaam(), value.get().getNaamUser());
         } else {
             throw new IllegalArgumentException("Geen student gevonden met naam: " + productNaam);
         }
@@ -93,7 +93,7 @@ public class ProductController {
         if (prod.getProductNaam().trim().length() >= 128)
             throw new IllegalArgumentException("User wijzigen gefaald. Naam langer dan 128 karakters");
 
-        dao.update(new ProductEntity(prod.getId(), prod.getProductNaam()));
+        dao.update(new ProductEntity(prod.getId(), prod.getProductNaam(), prod.getNaamUser()));
     }
 
     // Delete methods
@@ -145,7 +145,8 @@ public class ProductController {
                     ProductDTO dto = new ProductDTO();
                     dto.setId(rec.getId());
                     dto.setProductNaam(rec.getProductNaam());
-                    ;
+                    dto.setNaamUser(rec.getNaamUser());
+
                     return dto;
                 });
         return stream.collect(Collectors.toList());

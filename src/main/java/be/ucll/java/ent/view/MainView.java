@@ -1,6 +1,7 @@
 package be.ucll.java.ent.view;
 
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H3;
@@ -14,14 +15,15 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 import javax.annotation.PostConstruct;
 
-@Route("")
-@PageTitle("StuBS")
+@Route("Main")
+@PageTitle("Inventory managment")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 class MainView extends AppLayout  {
 
     // Content views
     private UsersView uView;
     private ProductView pView;
+    private AanvraagView aView;
 
     // Left navigation tabs
     private Tab tab1;
@@ -29,8 +31,10 @@ class MainView extends AppLayout  {
     private Tab tab2;
     private static final String TABNAME2 = "stock";
     private Tabs tabs;
-    private static final String TABNAME3 = "Users";
-    private static final String TABNAME4 = "Settings";
+    private static final String TABNAME3 = "Aanvragen";
+    private Tab tab3;
+    private static final String TABNAME4 = "Afmelden";
+    private Tab tab4;
     public MainView() {
         // Header / Menu bar on the top of the page
         H3 header = new H3("Inventory Managment");
@@ -43,8 +47,10 @@ class MainView extends AppLayout  {
         // Tabs on the left side drawer
         tab1 = new Tab(TABNAME1);
         tab2 = new Tab(TABNAME2);
+        tab3 = new Tab(TABNAME3);
+        tab4 = new Tab(TABNAME4);
 
-        tabs = new Tabs(tab1, tab2);
+        tabs = new Tabs(tab1, tab2, tab3, tab4);
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
         tabs.addSelectedChangeListener(event -> {
             handleTabClicked(event);
@@ -60,6 +66,9 @@ class MainView extends AppLayout  {
         pView = new ProductView();
         pView.loadData();
 
+        aView = new AanvraagView();
+        aView.loadData();
+
         // As default load the studentenview
         this.setContent(uView);
     }
@@ -72,6 +81,12 @@ class MainView extends AppLayout  {
             }
             else if (selTab.getLabel().equals(TABNAME2)) {
                 setContent(pView);
+            }
+            else if (selTab.getLabel().equals(TABNAME3)) {
+                setContent(aView);
+            }
+            else if (selTab.getLabel().equals(TABNAME4)) {
+                UI.getCurrent().navigate(LoginView.class);
             }
             else {
                 setContent(new Label("Te implementeren scherm voor Admins only"));

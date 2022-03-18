@@ -21,14 +21,18 @@ public class ProductEntity implements Serializable {
     @Column(length = 128)
     private String productNaam;
 
+    @Column(length = 128)
+    private String naamUser;
+
     public ProductEntity() {
         // Default constructor
     }
 
     // Constructor with all MANDATORY fields
-    public ProductEntity(long id, String productNaam) {
+    public ProductEntity(long id, String productNaam, String naamUser) {
         this.id = id;
         this.productNaam = productNaam;
+        this.naamUser = naamUser;
 
     }
 
@@ -48,17 +52,26 @@ public class ProductEntity implements Serializable {
         this.productNaam = productNaam;
     }
 
+    public String getNaamUser() {
+        return naamUser;
+    }
+
+    public void setNaamUser(String naamUser) {
+        this.naamUser = naamUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity that = (ProductEntity) o;
         return id == that.id &&
-                Objects.equals(productNaam, that.productNaam);
+                Objects.equals(productNaam, that.productNaam)&&
+                Objects.equals(naamUser, that.naamUser) ;
     }
     @Override
     public int hashCode() {
-        return Objects.hash(id, productNaam);
+        return Objects.hash(id, productNaam, naamUser);
     }
 
     @Override

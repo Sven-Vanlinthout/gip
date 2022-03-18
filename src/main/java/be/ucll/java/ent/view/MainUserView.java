@@ -1,6 +1,7 @@
 package be.ucll.java.ent.view;
 
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H3;
@@ -13,23 +14,24 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 import javax.annotation.PostConstruct;
+import java.awt.*;
 
 @Route("MainUser")
-@PageTitle("StuBS")
+@PageTitle("Inventory management")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 public class MainUserView extends AppLayout {
     // Content views
-    private UsersView uView;
-    private ProductView pView;
+    private UserProductView pView;
 
     // Left navigation tabs
     private Tab tab1;
     private static final String TABNAME1 = "stock";
+    private Tab tab2;
+    private static final String TABNAME2 = "Afmelden";
     private Tabs tabs;
     public MainUserView() {
         // Header / Menu bar on the top of the page
         H3 header = new H3("Inventory Managment");
-
         addToNavbar(new DrawerToggle(),
                 new Html("<span>&nbsp;&nbsp;</span>"),
                 header,
@@ -37,9 +39,9 @@ public class MainUserView extends AppLayout {
 
         // Tabs on the left side drawer
         tab1 = new Tab(TABNAME1);
+        tab2 = new Tab(TABNAME2);
 
-
-        tabs = new Tabs(tab1);
+        tabs = new Tabs(tab1, tab2);
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
         tabs.addSelectedChangeListener(event -> {
             handleTabClicked(event);
@@ -49,7 +51,7 @@ public class MainUserView extends AppLayout {
 
     @PostConstruct
     private void setMainViewContent() {
-        pView = new ProductView();
+        pView = new UserProductView();
         pView.loadData();
 
         // As default load the studentenview
@@ -61,6 +63,9 @@ public class MainUserView extends AppLayout {
         if (selTab.getLabel() != null) {
             if (selTab.getLabel().equals(TABNAME1)) {
                 setContent(pView);
+            }
+            if (selTab.getLabel().equals(TABNAME2)) {
+                UI.getCurrent().navigate(LoginView.class);
             }
             else {
                 setContent(new Label("Te implementeren scherm voor Admins only"));

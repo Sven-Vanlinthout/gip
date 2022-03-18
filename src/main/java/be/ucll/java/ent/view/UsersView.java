@@ -81,7 +81,7 @@ public class UsersView extends VerticalLayout {
         grid = new Grid<>();
         grid.setItems(new ArrayList<UserDTO>(0));
         //grid.addColumn(StudentDTO::getVoornaam).setHeader("Voornaam").setSortable(true);
-        grid.addColumn(user -> user.getVoornaam()).setHeader("Voornaam").setSortable(true);
+        grid.addColumn(user -> user.getVoornaam()).setHeader("gebruikersnaam").setSortable(true);
         grid.addColumn(UserDTO::getNaam).setHeader("Naam").setSortable(true);
         grid.addColumn(UserDTO::getGeboortedatumstr).setHeader("Geboortedatum");
         grid.addColumn(UserDTO::getAdres).setHeader("adres").setSortable(true);
@@ -182,7 +182,7 @@ public class UsersView extends VerticalLayout {
             UserDTO s = new UserDTO(0, frm.txtNaam.getValue(), frm.txtVoornaam.getValue(), d, frm.txtAdres.getValue(), frm.txtTelefoon.getValue() );
             long i = studentenMngr.createStudent(s);
 
-            Notification.show("Student created (id: " + i + ")", 3000, Notification.Position.TOP_CENTER);
+            Notification.show("user created (id: " + i + ")", 3000, Notification.Position.TOP_CENTER);
             frm.resetForm();
             handleClickSearch(null);
         } catch (IllegalArgumentException e) {
@@ -201,7 +201,7 @@ public class UsersView extends VerticalLayout {
             UserDTO s = new UserDTO(Integer.parseInt(frm.lblID.getText()), frm.txtNaam.getValue(), frm.txtVoornaam.getValue(), d, frm.txtAdres.getValue(), frm.txtTelefoon.getValue());
             studentenMngr.updateUser(s);
 
-            Notification.show("Student aangepast", 3000, Notification.Position.TOP_CENTER);
+            Notification.show("user aangepast", 3000, Notification.Position.TOP_CENTER);
             frm.resetForm();
             handleClickSearch(null);
         } catch (IllegalArgumentException e) {
@@ -212,7 +212,7 @@ public class UsersView extends VerticalLayout {
     private void handleClickDelete(ClickEvent event) {
         try {
             studentenMngr.deleteStudent(Integer.parseInt(frm.lblID.getText()));
-            Notification.show("Student verwijderd", 3000, Notification.Position.TOP_CENTER);
+            Notification.show("user verwijderd", 3000, Notification.Position.TOP_CENTER);
         } catch (IllegalArgumentException e) {
             Notification.show("Het is NIET mogelijk de student te verwijderen wegens geregistreerde inschrijvingen.", 5000, Notification.Position.MIDDLE).addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
